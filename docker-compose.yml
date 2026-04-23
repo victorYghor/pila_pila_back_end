@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: johndoe
+      POSTGRES_PASSWORD: randompassword
+      POSTGRES_DB: mydb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://johndoe:randompassword@db:5432/mydb?schema=public"
+      DATABASE_HOST: db
+      DATABASE_PORT: "5432"
+      DATABASE_USER: johndoe
+      DATABASE_PASSWORD: randompassword
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app:cached
+    command: ["/bin/bash", "./docker-entrypoint.sh", "yarn", "start:dev"]
+
+volumes:
+  db_data:
