@@ -1,13 +1,52 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ExpenseTag {
+  SERVICOS
+  MORADIA
+  ALIMENTACAO
+  EDUCACAO
+  SUPERMERCADO
+  SAUDE
+  LAZER
+  OUTROS
+}
+
+enum IncomeCategory {
+  SALARIO
+  OUTROS
+}
+
+model Expense {
+  id          String     @id @default(uuid())
+  userId      String
+  amount      Decimal    @db.Decimal(12, 2)
+  description String
+  tag         ExpenseTag
+  date        DateTime
+  essential   Boolean    @default(false)
+  recurrent   Boolean    @default(false)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId, date])
+}
+
+model Income {
+  id          String         @id @default(uuid())
+  userId      String
+  amount      Decimal        @db.Decimal(12, 2)
+  description String
+  category    IncomeCategory
+  date        DateTime
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([userId, date])
 }
