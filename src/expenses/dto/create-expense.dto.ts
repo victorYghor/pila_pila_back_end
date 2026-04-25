@@ -16,21 +16,21 @@ export class CreateExpenseDto {
   @ApiProperty({ example: 10 })
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsPositive()
-  amount: number;
+  amount!: number;
 
   @ApiProperty({ example: 'Conta de luz' })
   @IsString()
   @MinLength(1)
   @MaxLength(120)
-  description: string;
+  description!: string;
 
   @ApiProperty({ enum: ExpenseTag, example: ExpenseTag.SERVICOS })
   @IsEnum(ExpenseTag)
-  tag: ExpenseTag;
+  tag!: ExpenseTag;
 
   @ApiProperty({ example: '2026-05-21' })
   @IsDateString()
-  date: string;
+  date!: string;
 
   @ApiProperty({ example: false, default: false })
   @IsOptional()
