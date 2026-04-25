@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "resolvePackageJsonExports": true,
-    "isolatedModules": true,
+    "module": "CommonJS",
+    "moduleResolution": "node10",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -17,11 +17,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
-    "ignoreDeprecations": "6.0",
-    "target": "ES2021",
+    "ignoreDeprecations": "6.0"
   }
 }
