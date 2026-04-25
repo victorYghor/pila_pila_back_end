@@ -14,7 +14,7 @@ export class IncomesService {
         userId,
         amount: new Prisma.Decimal(dto.amount),
         description: dto.description,
-        category: dto.category,
+        tag: dto.tag,
         date: new Date(dto.date),
       },
     });
@@ -52,9 +52,8 @@ export class IncomesService {
     const data: Prisma.IncomeUpdateInput = {};
     if (dto.amount !== undefined) data.amount = new Prisma.Decimal(dto.amount);
     if (dto.description !== undefined) data.description = dto.description;
-    if (dto.category !== undefined) data.category = dto.category;
+    if (dto.tag !== undefined) data.tag = dto.tag;
     if (dto.date !== undefined) data.date = new Date(dto.date);
-    if (dto.notes !== undefined) data.notes = dto.notes;
 
     return this.prisma.income.update({ where: { id }, data });
   }

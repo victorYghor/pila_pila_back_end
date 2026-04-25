@@ -6,7 +6,7 @@ export type TransactionItem = {
   id: string;
   type: 'expense' | 'income';
   description: string;
-  category: string;
+  tag: string;
   amount: number;
   date: string;
 };
@@ -51,20 +51,25 @@ export class OverviewService {
       .sub(allExpenses._sum.amount ?? new Prisma.Decimal(0));
 
     const transactions: TransactionItem[] = [
-      ...incomes.map<TransactionItem>((i) => ({
+      // Correção 1: Coloque o ': TransactionItem' após os parâmetros (i)
+      ...incomes.map((i): TransactionItem => ({
         id: i.id,
         type: 'income',
         description: i.description,
-        category: i.category,
+        tag: i.tag,
         amount: i.amount.toNumber(),
         date: i.date.toISOString(),
       })),
-      ...expenses.map<TransactionItem>((e) => ({
+      
+      // Correção 2: Tire a tipagem do 'e' e coloque o ': TransactionItem' após os parâmetros
+      ...expenses.map((e): TransactionItem => ({
         id: e.id,
         type: 'expense',
         description: e.description,
-        category: e.tag,
-        amount: e.amount.toNumber(),
+        tag: e.tag,
+        
+        // Correção 3: Converta de Decimal/Date do Prisma para number/string do TransactionItem
+        amount: e.amount.toNumber(), 
         date: e.date.toISOString(),
       })),
     ].sort((a, b) => b.date.localeCompare(a.date));

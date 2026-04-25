@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { DecodedIdToken } from 'firebase-admin/auth';
+import * as auth from 'firebase-admin/auth';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { CreateExpenseDto } from './dto/create-expense.dto';
@@ -28,7 +28,7 @@ export class ExpensesController {
 
   @Post()
   create(
-    @CurrentUser() user: DecodedIdToken,
+    @CurrentUser() user: auth.DecodedIdToken,
     @Body() dto: CreateExpenseDto,
   ) {
     return this.expenses.create(user.uid, dto);
@@ -36,7 +36,7 @@ export class ExpensesController {
 
   @Get()
   findAll(
-    @CurrentUser() user: DecodedIdToken,
+    @CurrentUser() user: auth.DecodedIdToken,
     @Query('year', new ParseIntPipe({ optional: true })) year?: number,
     @Query('month', new ParseIntPipe({ optional: true })) month?: number,
   ) {
@@ -45,7 +45,7 @@ export class ExpensesController {
 
   @Get(':id')
   findOne(
-    @CurrentUser() user: DecodedIdToken,
+    @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.expenses.findOne(user.uid, id);
@@ -53,7 +53,7 @@ export class ExpensesController {
 
   @Patch(':id')
   update(
-    @CurrentUser() user: DecodedIdToken,
+    @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateExpenseDto,
   ) {
@@ -62,7 +62,7 @@ export class ExpensesController {
 
   @Delete(':id')
   remove(
-    @CurrentUser() user: DecodedIdToken,
+    @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
     return this.expenses.remove(user.uid, id);

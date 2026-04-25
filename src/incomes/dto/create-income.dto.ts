@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IncomeCategory } from '@prisma/client';
+import { IncomeTag } from '@prisma/client';
 import {
   IsDateString,
   IsEnum,
@@ -22,9 +22,9 @@ export class CreateIncomeDto {
   @MaxLength(120)
   description!: string;
 
-  @ApiProperty({ enum: IncomeCategory, example: IncomeCategory.SALARIO })
-  @IsEnum(IncomeCategory)
-  category!: IncomeCategory;
+  @ApiProperty({ enum: IncomeTag, example: IncomeTag.SALARIO })
+  @IsEnum(IncomeTag)
+  tag!: IncomeTag;
 
   @ApiProperty({ example: '2026-05-21' })
   @IsDateString()
