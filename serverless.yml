@@ -1,0 +1,31 @@
+service: serverless-example
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs24.x
+  httpApi:
+    cors: true
+
+  # Default function settings (can be overridden per-function)
+  timeout: 30
+  memorySize: 512
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    FIREBASE_PROJECT_ID: ${env:FIREBASE_PROJECT_ID}
+    FIREBASE_CLIENT_EMAIL: ${env:FIREBASE_CLIENT_EMAIL}
+    FIREBASE_PRIVATE_KEY: ${env:FIREBASE_PRIVATE_KEY}
+
+functions:
+  main:
+    # The handler should point to the built file and exported function name
+    # compiled JS is emitted to dist/src/main.js by the Nest build
+    handler: dist/src/main.handler
+    timeout: 30
+    memorySize: 512
+    events:
+      - httpApi:
+          method: ANY
+          path: '/{proxy+}'
