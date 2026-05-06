@@ -9,6 +9,7 @@ export class ExpensesService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(userId: string, dto: CreateExpenseDto) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
     return this.prisma.expense.create({
       data: {
         userId,

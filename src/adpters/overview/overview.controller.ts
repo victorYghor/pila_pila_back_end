@@ -9,7 +9,7 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import * as auth from 'firebase-admin/auth';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import { OverviewService } from './overview.service';
 
 @ApiTags('overview')

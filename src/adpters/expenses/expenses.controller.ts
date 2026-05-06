@@ -14,24 +14,24 @@ import {
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import * as auth from 'firebase-admin/auth';
 import { FirebaseAuthGuard } from '../auth/firebase-auth.guard';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { CreateIncomeDto } from './dto/create-income.dto';
-import { UpdateIncomeDto } from './dto/update-income.dto';
-import { IncomesService } from './incomes.service';
+import { CurrentUser } from '../../common/decorators/current-user.decorator';
+import { CreateExpenseDto } from './dto/create-expense.dto';
+import { UpdateExpenseDto } from './dto/update-expense.dto';
+import { ExpensesService } from './expenses.service';
 
-@ApiTags('incomes')
+@ApiTags('expenses')
 @ApiBearerAuth()
 @UseGuards(FirebaseAuthGuard)
-@Controller('incomes')
-export class IncomesController {
-  constructor(private readonly incomes: IncomesService) {}
+@Controller('expenses')
+export class ExpensesController {
+  constructor(private readonly expenses: ExpensesService) {}
 
   @Post()
   create(
     @CurrentUser() user: auth.DecodedIdToken,
-    @Body() dto: CreateIncomeDto,
+    @Body() dto: CreateExpenseDto,
   ) {
-    return this.incomes.create(user.uid, dto);
+    return this.expenses.create(user.uid, dto);
   }
 
   @Get()
@@ -40,7 +40,7 @@ export class IncomesController {
     @Query('year', new ParseIntPipe({ optional: true })) year?: number,
     @Query('month', new ParseIntPipe({ optional: true })) month?: number,
   ) {
-    return this.incomes.findAll(user.uid, year, month);
+    return this.expenses.findAll(user.uid, year, month);
   }
 
   @Get(':id')
@@ -48,16 +48,16 @@ export class IncomesController {
     @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.incomes.findOne(user.uid, id);
+    return this.expenses.findOne(user.uid, id);
   }
 
   @Patch(':id')
   update(
     @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: UpdateIncomeDto,
+    @Body() dto: UpdateExpenseDto,
   ) {
-    return this.incomes.update(user.uid, id, dto);
+    return this.expenses.update(user.uid, id, dto);
   }
 
   @Delete(':id')
@@ -65,6 +65,6 @@ export class IncomesController {
     @CurrentUser() user: auth.DecodedIdToken,
     @Param('id', ParseUUIDPipe) id: string,
   ) {
-    return this.incomes.remove(user.uid, id);
+    return this.expenses.remove(user.uid, id);
   }
 }
